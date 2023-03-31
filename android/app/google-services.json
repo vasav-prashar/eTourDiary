@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "186482821369",
+    "project_id": "e-tourdiary",
+    "storage_bucket": "e-tourdiary.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:186482821369:android:0c0f2c5237739d6284ba28",
+        "android_client_info": {
+          "package_name": "com.example.etourdiary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "186482821369-cqm4u6r2qcj0dd0prjgt7lomcun105du.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMzeHlhPvs4Y0u1zp3VNGsUyFI6PWzZLA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "186482821369-cqm4u6r2qcj0dd0prjgt7lomcun105du.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
