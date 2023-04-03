@@ -1,13 +1,25 @@
+import 'package:etourdiary/pages/auth/login.dart';
+import 'package:etourdiary/services/authentication.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Signup extends StatefulWidget {
-
   @override
   State<Signup> createState() => _SignupState();
 }
 
 class _SignupState extends State<Signup> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  final AuthService _auth = AuthService();
+  // text Controllers
+  TextEditingController _name = TextEditingController();
+  TextEditingController _email = TextEditingController();
+  TextEditingController _password = TextEditingController();
+  TextEditingController _confirmPassword = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +30,8 @@ class _SignupState extends State<Signup> {
             padding: const EdgeInsets.only(left: 35, top: 100),
             child: const Text(
               'Signup',
-              style: TextStyle(fontSize: 60, letterSpacing: 2.0, color: Colors.white),
+              style: TextStyle(
+                  fontSize: 60, letterSpacing: 2.0, color: Colors.white),
             ),
           ),
           SingleChildScrollView(
@@ -32,6 +45,7 @@ class _SignupState extends State<Signup> {
                 child: Column(
                   children: <Widget>[
                     TextFormField(
+                      controller: _name,
                       decoration: InputDecoration(
                           fillColor: Colors.grey.shade100,
                           filled: true,
@@ -40,14 +54,15 @@ class _SignupState extends State<Signup> {
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10))),
                       validator: (String? value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },                
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 30),
                     TextFormField(
+                      controller: _email,
                       decoration: InputDecoration(
                           fillColor: Colors.grey.shade100,
                           filled: true,
@@ -56,14 +71,15 @@ class _SignupState extends State<Signup> {
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10))),
                       validator: (String? value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },                
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 30),
                     TextFormField(
+                      controller: _password,
                       obscureText: true,
                       decoration: InputDecoration(
                           fillColor: Colors.grey.shade100,
@@ -72,15 +88,16 @@ class _SignupState extends State<Signup> {
                           hintStyle: const TextStyle(letterSpacing: 2.0),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10))),
-                        validator: (String? value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },              
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 30),
                     TextFormField(
+                      controller: _confirmPassword,
                       obscureText: true,
                       decoration: InputDecoration(
                           fillColor: Colors.grey.shade100,
@@ -90,18 +107,36 @@ class _SignupState extends State<Signup> {
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10))),
                       validator: (String? value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },        
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 30),
                     ElevatedButton(
-                      onPressed: () => {
+                      onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                      // Process data.
-                    }
+                          String? errorMessage =
+                              await _auth.signUpWithEmailAndPassword(
+                                  _email.text, _password.text, _name.text);
+                          if (errorMessage != null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(errorMessage),
+                                duration: Duration(seconds: 3),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                          }
+                          print(errorMessage);
+                          if (errorMessage == null) {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (builder) => Login()));
+                          }
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                           fixedSize: const Size(150, 60),
@@ -117,7 +152,12 @@ class _SignupState extends State<Signup> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         TextButton(
-                          onPressed: () => {},
+                          onPressed: () => {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (builder) => Login()))
+                          },
                           child: const Text(
                             'Sign In',
                             style: TextStyle(

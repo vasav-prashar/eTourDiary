@@ -1,7 +1,12 @@
+import 'package:etourdiary/pages/auth/login.dart';
 import 'package:flutter/material.dart';
-import 'pages/home.dart';
+import 'pages/auth/login.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   runApp(const MyApp());
 }
 
@@ -18,7 +23,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       initialRoute: "/",
       routes: {
-        "/": (context) => const Home(),
+        "/": (context) => Login(),
       },
     );
   }

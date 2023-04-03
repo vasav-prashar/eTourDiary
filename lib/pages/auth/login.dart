@@ -1,18 +1,29 @@
+import 'package:etourdiary/pages/auth/signup.dart';
+import 'package:etourdiary/pages/home.dart';
+import 'package:etourdiary/services/authentication.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MaterialApp(
-    home: Login(),
-  ));
-}
-
 class Login extends StatefulWidget {
+  const Login({super.key});
+
   @override
   State<Login> createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  //auth service obj
+  final AuthService _auth = AuthService();
+
+  //Text Controllers
+  TextEditingController _email = TextEditingController();
+  TextEditingController _password = TextEditingController();
+
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,6 +48,7 @@ class _LoginState extends State<Login> {
                 child: Column(
                   children: <Widget>[
                     TextFormField(
+                      controller: _email,
                       decoration: InputDecoration(
                           fillColor: Colors.grey.shade100,
                           filled: true,
@@ -45,14 +57,15 @@ class _LoginState extends State<Login> {
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10))),
                       validator: (String? value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },        
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 30),
                     TextFormField(
+                      controller: _password,
                       obscureText: true,
                       decoration: InputDecoration(
                           fillColor: Colors.grey.shade100,
@@ -62,18 +75,35 @@ class _LoginState extends State<Login> {
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10))),
                       validator: (String? value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },        
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 50),
                     ElevatedButton(
-                      onPressed: () => {
+                      onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                      // Process data.
-                    }
+                          String? errorMessage =
+                              await _auth.signInWithEmailAndPassword(
+                                  _email.text, _password.text);
+                          if (errorMessage != null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(errorMessage),
+                                duration: Duration(seconds: 3),
+                              ),
+                            );
+                          }
+                          print(errorMessage);
+                          if (errorMessage == null) {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (builder) => Home()));
+                          }
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                           fixedSize: const Size(150, 60),
@@ -89,7 +119,12 @@ class _LoginState extends State<Login> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         TextButton(
-                          onPressed: () => {},
+                          onPressed: () => {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (builder) => Signup()))
+                          },
                           child: const Text(
                             'Sign Up',
                             style: TextStyle(

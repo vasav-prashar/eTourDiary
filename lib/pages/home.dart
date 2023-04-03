@@ -1,4 +1,7 @@
+import 'package:etourdiary/pages/auth/login.dart';
 import 'package:etourdiary/pages/download.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'view.dart';
 import 'submit.dart';
@@ -16,6 +19,12 @@ class _HomeState extends State<Home> {
 
   List<Widget> pages = [MyStatefulWidget(), View(), Download()];
 
+  void signOut() async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => Login()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -23,6 +32,32 @@ class _HomeState extends State<Home> {
       theme: ThemeData(primarySwatch: Colors.blueGrey),
       title: Home._title,
       home: Scaffold(
+        drawer: Drawer(
+          // Add a ListView to the drawer. This ensures the user can scroll
+          // through the options in the drawer if there isn't enough vertical
+          // space to fit everything.
+          child: ListView(
+            // Important: Remove any padding from the ListView.
+            padding: EdgeInsets.zero,
+            children: [
+              const DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                ),
+                child: Text('Drawer Header'),
+              ),
+              ListTile(
+                title: const Text('LogOut'),
+                onTap: () {
+                  signOut();
+                  // Update the state of the app
+                  // ...
+                  // Then close the drawer
+                },
+              ),
+            ],
+          ),
+        ),
         resizeToAvoidBottomInset: false,
         appBar: AppBar(title: const Text(Home._title)),
         body: pages.elementAt(_selectedIndex),
