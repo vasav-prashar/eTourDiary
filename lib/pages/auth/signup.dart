@@ -12,7 +12,9 @@ class Signup extends StatefulWidget {
 
 class _SignupState extends State<Signup> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+  bool _isVisible = false;
+  bool _isVisible2 = false;
+  bool n = false, em = false, p = false, cp = false;
   final AuthService _auth = AuthService();
   // text Controllers
   TextEditingController _name = TextEditingController();
@@ -23,7 +25,7 @@ class _SignupState extends State<Signup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[800],
+      // backgroundColor: Colors.grey[800],
       body: Stack(
         children: [
           Container(
@@ -31,7 +33,9 @@ class _SignupState extends State<Signup> {
             child: const Text(
               'Signup',
               style: TextStyle(
-                  fontSize: 60, letterSpacing: 2.0, color: Colors.white),
+                fontSize: 60,
+                letterSpacing: 2.0,
+              ),
             ),
           ),
           SingleChildScrollView(
@@ -56,8 +60,13 @@ class _SignupState extends State<Signup> {
                       validator: (String? value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter some text';
+                        } else if (!RegExp(
+                                r"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")
+                            .hasMatch(value)) {
+                          return "Enter correct name";
+                        } else {
+                          n = true;
                         }
-                        return null;
                       },
                     ),
                     const SizedBox(height: 30),
@@ -73,15 +82,29 @@ class _SignupState extends State<Signup> {
                       validator: (String? value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter some text';
+                        } else if (!RegExp(r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$")
+                            .hasMatch(value)) {
+                          return "Please enter a Valid Email";
+                        } else {
+                          em = true;
                         }
-                        return null;
                       },
                     ),
                     const SizedBox(height: 30),
                     TextFormField(
                       controller: _password,
-                      obscureText: true,
+                      obscureText: !_isVisible,
                       decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                            icon: _isVisible
+                                ? Icon(Icons.visibility)
+                                : Icon(Icons.visibility_off),
+                            onPressed: () {
+                              setState(() {
+                                _isVisible = !_isVisible;
+                              });
+                            },
+                          ),
                           fillColor: Colors.grey.shade100,
                           filled: true,
                           hintText: 'Password',
@@ -91,15 +114,30 @@ class _SignupState extends State<Signup> {
                       validator: (String? value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter some text';
+                        } else if (!RegExp(
+                                r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$")
+                            .hasMatch(value)) {
+                          return "Min 8 characters, atleast 1 uppercase letter,\n1 lowercase letter, 1 number and 1 special character";
+                        } else {
+                          p = true;
                         }
-                        return null;
                       },
                     ),
                     const SizedBox(height: 30),
                     TextFormField(
                       controller: _confirmPassword,
-                      obscureText: true,
+                      obscureText: !_isVisible2,
                       decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                            icon: _isVisible2
+                                ? Icon(Icons.visibility)
+                                : Icon(Icons.visibility_off),
+                            onPressed: () {
+                              setState(() {
+                                _isVisible2 = !_isVisible2;
+                              });
+                            },
+                          ),
                           fillColor: Colors.grey.shade100,
                           filled: true,
                           hintText: 'Confirm Password',
@@ -109,8 +147,15 @@ class _SignupState extends State<Signup> {
                       validator: (String? value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter some text';
+                        } else if (!RegExp(
+                                r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$")
+                            .hasMatch(value)) {
+                          return "Min 8 characters, atleast 1 uppercase letter,\n1 lowercase letter, 1 number and 1 special character";
+                        } else if (value != _password.text) {
+                          return 'Password does not match';
+                        } else {
+                          cp = true;
                         }
-                        return null;
                       },
                     ),
                     const SizedBox(height: 30),
@@ -128,13 +173,18 @@ class _SignupState extends State<Signup> {
                                 backgroundColor: Colors.red,
                               ),
                             );
-                          }
-                          print(errorMessage);
-                          if (errorMessage == null) {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (builder) => Login()));
+                          } else if (n && em && p && cp) {
+                            _email.clear();
+                            _name.clear();
+                            _password.clear();
+                            _confirmPassword.clear();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Account Successfully Created.'),
+                                duration: Duration(seconds: 3),
+                                backgroundColor: Colors.green,
+                              ),
+                            );
                           }
                         }
                       },
@@ -143,7 +193,7 @@ class _SignupState extends State<Signup> {
                           textStyle: const TextStyle(
                               fontSize: 25, fontWeight: FontWeight.w500)),
                       child: const Text(
-                        'Login',
+                        'Signup',
                         style: TextStyle(letterSpacing: 2.0),
                       ),
                     ),

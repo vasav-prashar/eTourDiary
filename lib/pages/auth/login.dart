@@ -14,6 +14,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool _isVisible=false;
 
   //auth service obj
   final AuthService _auth = AuthService();
@@ -66,8 +67,18 @@ class _LoginState extends State<Login> {
                     const SizedBox(height: 30),
                     TextFormField(
                       controller: _password,
-                      obscureText: true,
+                      obscureText: !_isVisible,
                       decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                            icon: _isVisible
+                                ? Icon(Icons.visibility)
+                                : Icon(Icons.visibility_off),
+                            onPressed: () {
+                              setState(() {
+                                _isVisible = !_isVisible;
+                              });
+                            },
+                          ),
                           fillColor: Colors.grey.shade100,
                           filled: true,
                           hintText: 'Password',
@@ -92,6 +103,7 @@ class _LoginState extends State<Login> {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(errorMessage),
+                                backgroundColor: Colors.red,
                                 duration: Duration(seconds: 3),
                               ),
                             );
