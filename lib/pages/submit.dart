@@ -1,3 +1,4 @@
+import 'package:etourdiary/services/events.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -10,14 +11,18 @@ class MyStatefulWidget extends StatefulWidget {
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  int _value = 0;
+  String _value = "";
   TextEditingController dateinput = TextEditingController();
   //text editing controller for text field
+  TextEditingController _title = TextEditingController();
+  TextEditingController _description = TextEditingController();
+
+  final EventService _events = EventService();
 
   @override
   void initState() {
     dateinput.text = ""; //set the initial value of text field
-    _value = 1;
+    _value = "forenoon";
     super.initState();
   }
 
@@ -31,6 +36,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           child: Column(
             children: <Widget>[
               TextFormField(
+                controller: _title,
                 decoration: InputDecoration(
                     labelText: "Title",
                     icon: Icon(Icons.title),
@@ -53,6 +59,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               Padding(
                 padding: const EdgeInsets.only(top: 25.0, bottom: 20),
                 child: TextFormField(
+                  controller: _description,
                   decoration: InputDecoration(
                       icon: Icon(Icons.description),
                       iconColor: Colors.black,
@@ -126,11 +133,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 children: [
                   Row(children: [
                     Radio(
-                      value: 1,
+                      value: "forenoon",
                       groupValue: _value,
                       onChanged: (value) {
                         setState(() {
-                          _value = 1;
+                          _value = "forenoon";
                         });
                       },
                     ),
@@ -142,11 +149,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   ]),
                   Row(children: [
                     Radio(
-                      value: 2,
+                      value: "afternoon",
                       groupValue: _value,
                       onChanged: (value) {
                         setState(() {
-                          _value = 2;
+                          _value = "afternoon";
                         });
                       },
                     ),
@@ -159,11 +166,20 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 15.0),
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     // Validate will return true if the form is valid, or false if
                     // the form is invalid.
                     if (_formKey.currentState!.validate()) {
                       // Process data.
+                      _events.addEventData(_title.text, _description.text,
+                          dateinput.text, _value);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Added Sucessfully.'),
+                          duration: Duration(seconds: 3),
+                          backgroundColor: Colors.green,
+                        ),
+                      );
                     }
                   },
                   child: const Text('Submit'),

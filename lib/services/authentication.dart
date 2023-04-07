@@ -14,8 +14,9 @@ class AuthService {
           .createUserWithEmailAndPassword(email: email, password: password);
 
       // Add user data to Firestore
-
-      await _db.collection('users').doc(result.user?.uid).set({
+      User? user = _firebaseAuth.currentUser;
+      user?.updateDisplayName(displayName);
+      await _db.collection('users').doc(user?.uid).set({
         'displayName': displayName,
         'email': email,
         'createdAt': FieldValue.serverTimestamp(),
@@ -44,7 +45,7 @@ class AuthService {
           .signInWithEmailAndPassword(email: email, password: password);
       return null;
     } on FirebaseAuthException catch (e) {
-      String errorMessage=e.code;
+      String errorMessage = e.code;
       if (e.code == 'user-not-found') {
         errorMessage = 'No user found with that email.';
       } else if (e.code == 'wrong-password') {

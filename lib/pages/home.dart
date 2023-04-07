@@ -15,6 +15,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  FirebaseAuth _auth = FirebaseAuth.instance;
+
   int _selectedIndex = 0;
 
   List<Widget> pages = [MyStatefulWidget(), View(), Download()];
@@ -40,14 +42,16 @@ class _HomeState extends State<Home> {
             // Important: Remove any padding from the ListView.
             padding: EdgeInsets.zero,
             children: [
-              const DrawerHeader(
+              UserAccountsDrawerHeader(
+                accountEmail: Text('${_auth.currentUser?.email}'),
+                accountName: Text('${_auth.currentUser?.displayName}'),
                 decoration: BoxDecoration(
-                  color: Colors.blue,
+                  color: Colors.black45,
                 ),
-                child: Text('Drawer Header'),
               ),
               ListTile(
                 title: const Text('LogOut'),
+                tileColor: Colors.grey,
                 onTap: () {
                   signOut();
                   // Update the state of the app
