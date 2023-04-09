@@ -56,78 +56,75 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   return null;
                 },
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 25.0, bottom: 20),
-                child: TextFormField(
-                  controller: _description,
-                  decoration: InputDecoration(
-                      icon: Icon(Icons.description),
-                      iconColor: Colors.black,
-                      labelText: "Description",
-                      labelStyle: const TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.w300,
-                          fontStyle: FontStyle.italic),
-                      hintText: "Enter Description",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      )),
-                  keyboardType: TextInputType.multiline,
-                  maxLines: 8,
-                  maxLength: 1000,
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                    return null;
-                  },
-                ),
+              const SizedBox(height: 30),
+              TextFormField(
+                controller: _description,
+                decoration: InputDecoration(
+                    icon: Icon(Icons.description),
+                    iconColor: Colors.black,
+                    labelText: "Description",
+                    labelStyle: const TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w300,
+                        fontStyle: FontStyle.italic),
+                    hintText: "Enter Description",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    )),
+                keyboardType: TextInputType.multiline,
+                maxLines: 8,
+                maxLength: 1000,
+                validator: (String? value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
               ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: TextFormField(
-                  controller: dateinput, //editing controller of this TextField
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      icon: Icon(Icons.calendar_today), //icon of text field
-                      iconColor: Colors.black,
-                      labelText: "Select Date" //label text of field
-                      ),
-                  readOnly:
-                      true, //set it true, so that user will not able to edit text
-                  onTap: () async {
-                    DateTime? pickedDate = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime
-                            .now(), //DateTime.now() - not to allow to choose before today.
-                        lastDate: DateTime(2101));
+              const SizedBox(height: 30),
+              TextFormField(
+                controller: dateinput, //editing controller of this TextField
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    icon: Icon(Icons.calendar_today), //icon of text field
+                    iconColor: Colors.black,
+                    labelText: "Select Date" //label text of field
+                    ),
+                readOnly:
+                    true, //set it true, so that user will not able to edit text
+                onTap: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime
+                          .now(), //DateTime.now() - not to allow to choose before today.
+                      lastDate: DateTime(2101));
 
-                    if (pickedDate != null) {
-                      print(
-                          pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                      String formattedDate =
-                          DateFormat('dd-MM-yyyy').format(pickedDate);
-                      print(
-                          formattedDate); //formatted date output using intl package =>  2021-03-16
-                      //you can implement different kind of Date Format here according to your requirement
+                  if (pickedDate != null) {
+                    print(
+                        pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                    String formattedDate =
+                        DateFormat('dd-MM-yyyy').format(pickedDate);
+                    print(
+                        formattedDate); //formatted date output using intl package =>  2021-03-16
+                    //you can implement different kind of Date Format here according to your requirement
 
-                      setState(() {
-                        dateinput.text =
-                            formattedDate; //set output date to TextField value.
-                      });
-                    } else {
-                      print("Date is not selected");
-                    }
-                  },
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please Select Date';
-                    }
-                    return null;
-                  },
-                ),
+                    setState(() {
+                      dateinput.text =
+                          formattedDate; //set output date to TextField value.
+                    });
+                  } else {
+                    print("Date is not selected");
+                  }
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please Select Date';
+                  }
+                  return null;
+                },
               ),
+              const SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -163,27 +160,29 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   ]),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 15.0),
-                child: ElevatedButton(
-                  onPressed: () async {
-                    // Validate will return true if the form is valid, or false if
-                    // the form is invalid.
-                    if (_formKey.currentState!.validate()) {
-                      // Process data.
-                      _events.addEventData(_title.text, _description.text,
-                          dateinput.text, _value);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Added Sucessfully.'),
-                          duration: Duration(seconds: 3),
-                          backgroundColor: Colors.green,
-                        ),
-                      );
-                    }
-                  },
-                  child: const Text('Submit'),
-                ),
+              const SizedBox(height: 30),
+              ElevatedButton(
+                onPressed: () async {
+                  // Validate will return true if the form is valid, or false if
+                  // the form is invalid.
+                  if (_formKey.currentState!.validate()) {
+
+                    // Process data.
+                    _events.addEventData(
+                        _title.text, _description.text, dateinput.text, _value);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Added Sucessfully.'),
+                        duration: Duration(seconds: 3),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
+                          _title.clear();
+                    _description.clear();
+                    dateinput.clear();
+                  }
+                },
+                child: const Text('Submit'),
               ),
             ],
           ),

@@ -14,7 +14,7 @@ class AuthService {
           .createUserWithEmailAndPassword(email: email, password: password);
 
       // Add user data to Firestore
-      User? user = _firebaseAuth.currentUser;
+      User? user = await _firebaseAuth.currentUser;
       user?.updateDisplayName(displayName);
       await _db.collection('users').doc(user?.uid).set({
         'displayName': displayName,
