@@ -26,4 +26,25 @@ class EventService {
       throw e;
     }
   }
+
+  Future<List<Map<String, dynamic>>> getEventsData(String selectedDate) async {
+    try {
+      User? user = _auth.currentUser;
+      // List<Map<String, dynamic>> eventsData = [];
+      QuerySnapshot snapshot = await _db
+          .collection('users')
+          .doc(user?.uid)
+          .collection('events')
+          .where('date', isEqualTo: selectedDate)
+          .get();
+      print(snapshot.docs);
+      print(snapshot.docs.map((doc) => doc.data()).toList());
+      return snapshot.docs
+          .map((doc) => doc.data() as Map<String, dynamic>)
+          .toList();
+    } catch (e) {
+      print('Error fetching events: $e');
+      throw e;
+    }
+  }
 }

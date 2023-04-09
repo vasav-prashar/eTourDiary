@@ -1,7 +1,6 @@
 import 'package:etourdiary/pages/auth/login.dart';
 import 'package:etourdiary/pages/download.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'view.dart';
 import 'submit.dart';
@@ -51,7 +50,6 @@ class _HomeState extends State<Home> {
               ),
               ListTile(
                 title: const Text('LogOut'),
-                tileColor: Colors.grey,
                 onTap: () {
                   signOut();
                   // Update the state of the app
