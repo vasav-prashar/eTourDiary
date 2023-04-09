@@ -100,8 +100,16 @@ class _ViewState extends State<View> {
                         ListTile(
                           leading: Icon(Icons.title),
                           iconColor: Colors.black,
-                          title: Text(_eventsData[index]['title']),
-                          subtitle: Text(_eventsData[index]['description']),
+                          title: Text(_eventsData[index]['title'],
+                          style: const TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w500,
+                          ),),
+                          subtitle: Text(_eventsData[index]['description'],
+                          style: const TextStyle(
+                            fontSize: 15
+                          ),),
+                          trailing: Text(_eventsData[index]['time']),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -112,7 +120,7 @@ class _ViewState extends State<View> {
                             ),
                             const SizedBox(width: 8),
                             IconButton(
-                              icon: Icon(Icons.delete),
+                              icon: const Icon(Icons.delete),
                               onPressed: () {/* ... */},
                             ),
                             const SizedBox(width: 8),

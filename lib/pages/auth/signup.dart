@@ -150,7 +150,7 @@ class _SignupState extends State<Signup> {
                         } else if (!RegExp(
                                 r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$")
                             .hasMatch(value)) {
-                          return "Min 8 characters, atleast 1 uppercase letter,\n1 lowercase letter, 1 number and 1 special character";
+                          return "Min 6 characters, atleast 1 uppercase letter,\n1 lowercase letter, 1 number and 1 special character";
                         } else if (value != _password.text) {
                           return 'Password does not match';
                         } else {
