@@ -31,13 +31,16 @@ class EventService {
     try {
       User? user = _auth.currentUser;
       // List<Map<String, dynamic>> eventsData = [];
+
       QuerySnapshot snapshot = await _db
           .collection('users')
           .doc(user?.uid)
           .collection('events')
           .where('date', isEqualTo: selectedDate)
           .get();
+
       print(snapshot.docs);
+
       print(snapshot.docs.map((doc) => doc.data()).toList());
       return snapshot.docs
           .map((doc) => doc.data() as Map<String, dynamic>)
@@ -45,6 +48,61 @@ class EventService {
     } catch (e) {
       print('Error fetching events: $e');
       throw e;
+    }
+  }
+
+  Future<void> deleteEvent(
+      String title, String description, String date) async {
+    try {
+      User? user = _auth.currentUser;
+      QuerySnapshot snapshot = await _db
+          .collection('users')
+          .doc(user?.uid)
+          .collection('events')
+          .where('title', isEqualTo: title)
+          .where('description', isEqualTo: description)
+          .where('date', isEqualTo: date)
+          .get();
+      String eventId = snapshot.docs[0].id;
+      await _db
+          .collection('users')
+          .doc(user?.uid)
+          .collection('events')
+          .doc(eventId)
+          .delete();
+      print('Event deleted successfully');
+    } catch (e) {
+      print('Error deleting event: $e');
+    }
+  }
+
+  Future<void> updateEvent(
+      String title, String description, String date, String time) async {
+    try {
+      User? user = _auth.currentUser;
+      QuerySnapshot snapshot = await _db
+          .collection('users')
+          .doc(user?.uid)
+          .collection('events')
+          .where('title', isEqualTo: title)
+          .where('description', isEqualTo: description)
+          .where('date', isEqualTo: date)
+          .get();
+      String eventId = snapshot.docs[0].id;
+      await _db
+          .collection('users')
+          .doc(user?.uid)
+          .collection('events')
+          .doc(eventId)
+          .update({
+        'title': title,
+        'description': description,
+        'date': date,
+        'time': time
+      });
+      print('Event Updated successfully');
+    } catch (e) {
+      print('Error deleting event: $e');
     }
   }
 }
