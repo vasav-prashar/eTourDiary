@@ -17,7 +17,8 @@ class EventService {
         'title': title,
         'description': description,
         'date': date,
-        'time': time
+        'time': time,
+        'createdAt': FieldValue.serverTimestamp(),
       });
 
       print('Event data added successfully');
@@ -27,7 +28,7 @@ class EventService {
     }
   }
 
-  Future<List<Map<String, dynamic>>> getEventsData(String selectedDate) async {
+  Stream<List<Map<String, dynamic>>> getEventsData(String selectedDate) async* {
     try {
       User? user = _auth.currentUser;
       // List<Map<String, dynamic>> eventsData = [];
@@ -42,7 +43,7 @@ class EventService {
       print(snapshot.docs);
 
       print(snapshot.docs.map((doc) => doc.data()).toList());
-      return snapshot.docs
+      yield snapshot.docs
           .map((doc) => doc.data() as Map<String, dynamic>)
           .toList();
     } catch (e) {
@@ -89,6 +90,8 @@ class EventService {
           .where('date', isEqualTo: date)
           .get();
       String eventId = snapshot.docs[0].id;
+      print(eventId);
+
       await _db
           .collection('users')
           .doc(user?.uid)
@@ -102,7 +105,26 @@ class EventService {
       });
       print('Event Updated successfully');
     } catch (e) {
-      print('Error deleting event: $e');
+      print('Error updating event: $e');
+    }
+  }
+
+  Future<String> getEventId(
+      String title, String description, String date, String time) async {
+    try {
+      User? user = _auth.currentUser;
+      QuerySnapshot snapshot = await _db
+          .collection('users')
+          .doc(user?.uid)
+          .collection('events')
+          .where('title', isEqualTo: title)
+          .where('description', isEqualTo: description)
+          .where('date', isEqualTo: date)
+          .get();
+      return snapshot.docs[0].id;
+    } catch (e) {
+      print('Error getting event ID: $e');
+      throw e;
     }
   }
 }

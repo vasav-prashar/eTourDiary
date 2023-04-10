@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 
+import '../utils/alertdialog.dart';
+
 class View extends StatefulWidget {
   const View({super.key});
 
@@ -23,17 +25,9 @@ class _ViewState extends State<View> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _getEventsForDate(DateFormat('dd-MM-yyyy').format(_focusedDay).toString());
-  }
-
-  void _getEventsForDate(String date) async {
-    List<Map<String, dynamic>> events = await _eventService.getEventsData(date);
-    if (events != null) {
-      setState(() {
-        _eventsData = events;
-        print(_eventsData);
-      });
-    }
+    _eventService
+        .getEventsData(DateFormat('dd-MM-yyyy').format(_focusedDay).toString());
+    // _getEventsForDate(DateFormat('dd-MM-yyyy').format(_focusedDay).toString());
   }
 
   @override
@@ -52,8 +46,8 @@ class _ViewState extends State<View> {
               setState(() {
                 _selectedDay = selectedDay;
                 _focusedDay = focusedDay; // update `_focusedDay` here as well
-                _getEventsForDate(
-                    DateFormat('dd-MM-yyyy').format(_focusedDay).toString());
+                // _getEventsForDate(
+                //     DateFormat('dd-MM-yyyy').format(_focusedDay).toString());
               });
             },
             calendarFormat: _calendarFormat,
@@ -86,52 +80,69 @@ class _ViewState extends State<View> {
             style: TextStyle(
                 fontSize: 15, fontWeight: FontWeight.w600, color: Colors.blue),
           ),
-          SingleChildScrollView(
-            child: SizedBox(
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: _eventsData.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Card(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        ListTile(
-                          leading: Icon(Icons.title),
-                          iconColor: Colors.black,
-                          title: Text(_eventsData[index]['title'],
-                          style: const TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w500,
-                          ),),
-                          subtitle: Text(_eventsData[index]['description'],
-                          style: const TextStyle(
-                            fontSize: 15
-                          ),),
-                          trailing: Text(_eventsData[index]['time']),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+          StreamBuilder<List<Map<String, dynamic>>>(
+            stream: _eventService.getEventsData(
+                DateFormat('dd-MM-yyyy').format(_focusedDay).toString()),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return CircularProgressIndicator();
+              } else if (snapshot.data!.isEmpty) {
+                return Text("No events found for selected date");
+              } else {
+                return SizedBox(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      final event = snapshot.data![index];
+
+                      return Card(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
-                            IconButton(
-                              icon: const Icon(Icons.edit),
-                              onPressed: () {/* ... */},
+                            ListTile(
+                              leading: Icon(Icons.title),
+                              iconColor: Colors.black,
+                              title: Text(event['title']),
+                              subtitle: Text(event['description']),
                             ),
-                            const SizedBox(width: 8),
-                            IconButton(
-                              icon: const Icon(Icons.delete),
-                              onPressed: () {/* ... */},
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                IconButton(
+                                  icon: const Icon(Icons.edit),
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return UpdateDialog(eventData: event);
+                                      },
+                                    );
+                                    setState(() {});
+                                  },
+                                ),
+                                const SizedBox(width: 8),
+                                IconButton(
+                                    icon: Icon(Icons.delete),
+                                    onPressed: () async {
+                                      await _eventService.deleteEvent(
+                                          event['title'],
+                                          event['description'],
+                                          event['date']);
+                                      setState(() {});
+                                    }),
+                                const SizedBox(width: 8),
+                              ],
                             ),
-                            const SizedBox(width: 8),
                           ],
                         ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
+                      );
+                    },
+                  ),
+                );
+              }
+            },
           ),
         ],
       ),
