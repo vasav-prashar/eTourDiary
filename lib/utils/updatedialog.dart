@@ -91,9 +91,9 @@ class _UpdateDialogState extends State<UpdateDialog> {
                   DateTime? pickedDate = await showDatePicker(
                       context: context,
                       initialDate: DateTime.now(),
-                      firstDate: DateTime
-                          .now(), //DateTime.now() - not to allow to choose before today.
-                      lastDate: DateTime(2101));
+                      firstDate: DateTime(
+                          2010), //DateTime.now() - not to allow to choose before today.
+                      lastDate: DateTime(2100));
 
                   if (pickedDate != null) {
                     print(
