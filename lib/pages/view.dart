@@ -125,12 +125,33 @@ class _ViewState extends State<View> {
                                 const SizedBox(width: 8),
                                 IconButton(
                                     icon: Icon(Icons.delete),
-                                    onPressed: () async {
-                                      await _eventService.deleteEvent(
-                                          event['title'],
-                                          event['description'],
-                                          event['date']);
-                                      setState(() {});
+                                    onPressed: () {
+                                      showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(                                        
+                                        title: Text(
+                                            'Are you sure you want to delete?'),
+                                        actions: [
+                                          TextButton(
+                                              onPressed: () {  
+                                                 Navigator.of(context).pop();                                          
+                                              },
+                                              child: Text('NO')),
+                                          TextButton(
+                                              onPressed: () async {
+                                                await _eventService.deleteEvent(
+                                                event['title'],
+                                                event['description'],
+                                                event['date']);
+                                                 Navigator.of(context).pop();
+                                                setState(() {});
+                                              },
+                                              child: Text('YES')),
+                                        ],
+                                      );
+                                    });
+                                      
                                     }),
                                 const SizedBox(width: 8),
                               ],
