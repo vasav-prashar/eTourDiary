@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 
-import '../utils/alertdialog.dart';
+import '../utils/updatedialog.dart';
 
 class View extends StatefulWidget {
   const View({super.key});
@@ -112,8 +112,8 @@ class _ViewState extends State<View> {
                               children: <Widget>[
                                 IconButton(
                                   icon: const Icon(Icons.edit),
-                                  onPressed: () {
-                                    showDialog(
+                                  onPressed: () async {
+                                    await showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
                                         return UpdateDialog(eventData: event);

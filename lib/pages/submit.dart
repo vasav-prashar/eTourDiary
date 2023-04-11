@@ -22,7 +22,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   @override
   void initState() {
     dateinput.text = ""; //set the initial value of text field
-    _value = "forenoon";
+    _value = "Forenoon";
     super.initState();
   }
 
@@ -102,7 +102,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
                   if (pickedDate != null) {
                     print(
-                        pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                        pickedDate);
                     String formattedDate =
                         DateFormat('dd-MM-yyyy').format(pickedDate);
                     print(
@@ -130,11 +130,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 children: [
                   Row(children: [
                     Radio(
-                      value: "forenoon",
+                      value: "Forenoon",
                       groupValue: _value,
                       onChanged: (value) {
                         setState(() {
-                          _value = "forenoon";
+                          _value = "Forenoon";
                         });
                       },
                     ),
@@ -146,11 +146,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   ]),
                   Row(children: [
                     Radio(
-                      value: "afternoon",
+                      value: "Afternoon",
                       groupValue: _value,
                       onChanged: (value) {
                         setState(() {
-                          _value = "afternoon";
+                          _value = "Afternoon";
                         });
                       },
                     ),

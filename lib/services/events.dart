@@ -40,8 +40,6 @@ class EventService {
           .where('date', isEqualTo: selectedDate)
           .get();
 
-      print(snapshot.docs);
-
       print(snapshot.docs.map((doc) => doc.data()).toList());
       yield snapshot.docs
           .map((doc) => doc.data() as Map<String, dynamic>)
@@ -77,32 +75,26 @@ class EventService {
     }
   }
 
-  Future<void> updateEvent(
-      String title, String description, String date, String time) async {
+  Future<void> updateEvent(String title, String description, String date,
+      String time, String id) async {
     try {
+      Map<String, dynamic> data = {
+        'title': title,
+        'description': description,
+        'date': date,
+        'time': time,
+        'updatedAt': FieldValue.serverTimestamp()
+      };
       User? user = _auth.currentUser;
-      QuerySnapshot snapshot = await _db
-          .collection('users')
-          .doc(user?.uid)
-          .collection('events')
-          .where('title', isEqualTo: title)
-          .where('description', isEqualTo: description)
-          .where('date', isEqualTo: date)
-          .get();
-      String eventId = snapshot.docs[0].id;
-      print(eventId);
 
+      // String timeStamp = snapshot.docs[0]['createdAt'];
+      // print(timeStamp);
       await _db
           .collection('users')
           .doc(user?.uid)
           .collection('events')
-          .doc(eventId)
-          .update({
-        'title': title,
-        'description': description,
-        'date': date,
-        'time': time
-      });
+          .doc(id)
+          .update(data);
       print('Event Updated successfully');
     } catch (e) {
       print('Error updating event: $e');
