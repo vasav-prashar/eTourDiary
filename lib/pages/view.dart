@@ -1,6 +1,5 @@
-import 'dart:ui';
-
 import 'package:etourdiary/services/events.dart';
+import 'package:etourdiary/utils/deletedialog.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
@@ -102,10 +101,11 @@ class _ViewState extends State<View> {
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             ListTile(
-                              leading: Icon(Icons.title),
+                              leading: Icon(Icons.all_inbox),
                               iconColor: Colors.black,
                               title: Text(event['title']),
                               subtitle: Text(event['description']),
+                              trailing: Text(event['time']),
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
@@ -125,33 +125,14 @@ class _ViewState extends State<View> {
                                 const SizedBox(width: 8),
                                 IconButton(
                                     icon: Icon(Icons.delete),
-                                    onPressed: () {
-                                      showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(                                        
-                                        title: Text(
-                                            'Are you sure you want to delete?'),
-                                        actions: [
-                                          TextButton(
-                                              onPressed: () {  
-                                                 Navigator.of(context).pop();                                          
-                                              },
-                                              child: Text('NO')),
-                                          TextButton(
-                                              onPressed: () async {
-                                                await _eventService.deleteEvent(
-                                                event['title'],
-                                                event['description'],
-                                                event['date']);
-                                                 Navigator.of(context).pop();
-                                                setState(() {});
-                                              },
-                                              child: Text('YES')),
-                                        ],
-                                      );
-                                    });
-                                      
+                                    onPressed: () async {
+                                      await showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return deleteDialog(
+                                                eventData: event);
+                                          });
+                                      setState(() {});
                                     }),
                                 const SizedBox(width: 8),
                               ],

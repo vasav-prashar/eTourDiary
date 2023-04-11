@@ -142,7 +142,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
                     _titleController.text,
                     _descriptionController.text,
                     _dateController.text,
-                    'forenoon',
+                    widget.eventData['time'],
                     id);
                 Navigator.of(context).pop();
                 setState(() {});
