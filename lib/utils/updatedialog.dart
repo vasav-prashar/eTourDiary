@@ -25,15 +25,12 @@ class _UpdateDialogState extends State<UpdateDialog> {
     _titleController = TextEditingController(text: widget.eventData['title']);
     _descriptionController =
         TextEditingController(text: widget.eventData['description']);
-    _dateController = TextEditingController(text: widget.eventData['date']);
-    dateinput.text = ""; //set the initial value of text field
   }
 
   @override
   void dispose() {
     _titleController.dispose();
     _descriptionController.dispose();
-    _dateController.dispose();
     super.dispose();
   }
 
@@ -84,41 +81,6 @@ class _UpdateDialogState extends State<UpdateDialog> {
                   return null;
                 },
               ),
-              TextFormField(
-                controller: _dateController,
-                decoration: InputDecoration(hintText: 'Date'),
-                onTap: () async {
-                  DateTime? pickedDate = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(
-                          2010), //DateTime.now() - not to allow to choose before today.
-                      lastDate: DateTime(2100));
-
-                  if (pickedDate != null) {
-                    print(
-                        pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                    String formattedDate =
-                        DateFormat('dd-MM-yyyy').format(pickedDate);
-                    print(
-                        formattedDate); //formatted date output using intl package =>  2021-03-16
-                    //you can implement different kind of Date Format here according to your requirement
-
-                    setState(() {
-                      dateinput.text =
-                          formattedDate; //set output date to TextField value.
-                    });
-                  } else {
-                    print("Date is not selected");
-                  }
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a date';
-                  }
-                  return null;
-                },
-              ),
             ],
           ),
         ),
@@ -141,7 +103,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
                 await _eventService.updateEvent(
                     _titleController.text,
                     _descriptionController.text,
-                    _dateController.text,
+                    widget.eventData['date'],
                     widget.eventData['time'],
                     id);
                 Navigator.of(context).pop();
