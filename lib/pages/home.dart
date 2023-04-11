@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'view.dart';
 import 'submit.dart';
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -62,7 +63,12 @@ class _HomeState extends State<Home> {
         ),
         resizeToAvoidBottomInset: false,
         appBar: AppBar(title: const Text(Home._title)),
-        body: pages.elementAt(_selectedIndex),
+        body: DoubleBackToCloseApp(
+          child: pages.elementAt(_selectedIndex),
+          snackBar: const SnackBar(
+            content: Text('Tap back again to Exit'),
+          ),
+        ),
         bottomNavigationBar: BottomNavigationBar(
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
