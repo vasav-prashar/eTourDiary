@@ -1,8 +1,10 @@
 import 'package:etourdiary/pages/auth/signup.dart';
 import 'package:etourdiary/pages/home.dart';
+import 'package:etourdiary/pages/splash_screen.dart';
 import 'package:etourdiary/services/authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
 class Login extends StatefulWidget {
@@ -110,6 +112,9 @@ class _LoginState extends State<Login> {
                           }
                           print(errorMessage);
                           if (errorMessage == null) {
+                            var sharedPref =
+                                await SharedPreferences.getInstance();
+                            sharedPref.setBool(SplashScreenState.KEYLOGIN, true);
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(

@@ -38,6 +38,7 @@ dependencies:
   firebase_core: ^2.9.0
   cloud_firestore: ^4.5.0
   double_back_to_close_app: ^2.1.0
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_test:

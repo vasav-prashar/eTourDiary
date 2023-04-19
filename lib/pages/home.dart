@@ -1,10 +1,12 @@
 import 'package:etourdiary/pages/auth/login.dart';
 import 'package:etourdiary/pages/download.dart';
+import 'package:etourdiary/pages/splash_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'view.dart';
 import 'submit.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -23,6 +25,8 @@ class _HomeState extends State<Home> {
 
   void signOut() async {
     await FirebaseAuth.instance.signOut();
+    var sharedPref = await SharedPreferences.getInstance();
+    sharedPref.setBool(SplashScreenState.KEYLOGIN, false);
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => Login()));
   }
