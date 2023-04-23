@@ -39,6 +39,9 @@ dependencies:
   cloud_firestore: ^4.5.0
   double_back_to_close_app: ^2.1.0
   shared_preferences: ^2.0.15
+  pdf: ^3.10.1
+  path_provider: ^2.0.14
+  open_file: ^3.2.1
 
 dev_dependencies:
   flutter_test:
