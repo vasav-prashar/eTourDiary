@@ -119,4 +119,28 @@ class EventService {
       throw e;
     }
   }
+
+  Future<List<Map<String, dynamic>>> getEventsRangeData(
+      String start, String end) async {
+    try {
+      User? user = _auth.currentUser;
+      // List<Map<String, dynamic>> eventsData = [];
+
+      QuerySnapshot snapshot = await _db
+          .collection('users')
+          .doc(user?.uid)
+          .collection('events')
+          .where('date', isGreaterThanOrEqualTo: start)
+          .where('date', isLessThanOrEqualTo: end)
+          .get();
+
+      print(snapshot.docs.map((doc) => doc.data()).toList());
+      return snapshot.docs
+          .map((doc) => doc.data() as Map<String, dynamic>)
+          .toList();
+    } catch (e) {
+      print('Error fetching events: $e');
+      throw e;
+    }
+  }
 }
