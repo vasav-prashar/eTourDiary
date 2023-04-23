@@ -47,6 +47,7 @@ class _HomeState extends State<Home> {
             padding: EdgeInsets.zero,
             children: [
               UserAccountsDrawerHeader(
+                currentAccountPicture: Icon(Icons.person),
                 accountEmail: Text('${_auth.currentUser?.email}'),
                 accountName: Text('${_auth.currentUser?.displayName}'),
                 decoration: BoxDecoration(
