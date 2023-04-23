@@ -30,7 +30,7 @@ class SplashScreenState extends State<SplashScreen> {
         color: Colors.blue,
         child: const Center(
           child: Text(
-            "Welcome",
+            "E-Tour Diary",
             style: TextStyle(
                 fontSize: 34, fontWeight: FontWeight.w700, color: Colors.white),
           ),
@@ -38,29 +38,25 @@ class SplashScreenState extends State<SplashScreen> {
       ),
     );
   }
-  void Destination() async{
-  var sharedPref = await SharedPreferences.getInstance();
 
-  var isLoggedIn = sharedPref.getBool(SplashScreenState.KEYLOGIN);
+  void Destination() async {
+    var sharedPref = await SharedPreferences.getInstance();
+
+    var isLoggedIn = sharedPref.getBool(SplashScreenState.KEYLOGIN);
 
     Timer(Duration(seconds: 2), () {
-      if(isLoggedIn!=null){
-        if(isLoggedIn){
+      if (isLoggedIn != null) {
+        if (isLoggedIn) {
           Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: ((context) => const Home())));
-        }else{
-          Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: ((context) => const Login())));
+              context, MaterialPageRoute(builder: ((context) => const Home())));
+        } else {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: ((context) => const Login())));
         }
-      }else{
+      } else {
         Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: ((context) => const Login())));
+            context, MaterialPageRoute(builder: ((context) => const Login())));
       }
-   
     });
-
+  }
 }
-}
-
-
-
