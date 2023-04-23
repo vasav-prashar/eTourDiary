@@ -15,7 +15,7 @@ class View extends StatefulWidget {
 
 class _ViewState extends State<View> {
   DateTime _focusedDay = DateTime.now();
-  DateTime? _selectedDay;
+  DateTime _selectedDay = DateTime.now();
   CalendarFormat _calendarFormat = CalendarFormat.twoWeeks;
   EventService _eventService = EventService();
   List<Map<String, dynamic>> _eventsData = [];
@@ -26,6 +26,7 @@ class _ViewState extends State<View> {
     super.initState();
     _eventService
         .getEventsData(DateFormat('dd-MM-yyyy').format(_focusedDay).toString());
+    _focusedDay = _selectedDay;
     // _getEventsForDate(DateFormat('dd-MM-yyyy').format(_focusedDay).toString());
   }
 
@@ -37,14 +38,14 @@ class _ViewState extends State<View> {
           TableCalendar(
             firstDay: DateTime.utc(2020),
             lastDay: DateTime.utc(2030),
-            focusedDay: DateTime.now(),
+            focusedDay: _selectedDay,
             selectedDayPredicate: (day) {
-              return isSameDay(_selectedDay, day);
+              return isSameDay(_focusedDay, day);
             },
             onDaySelected: (selectedDay, focusedDay) {
               setState(() {
-                _selectedDay = selectedDay;
-                _focusedDay = focusedDay; // update `_focusedDay` here as well
+                _selectedDay = focusedDay;
+                _focusedDay = selectedDay; // update `_focusedDay` here as well
                 // _getEventsForDate(
                 //     DateFormat('dd-MM-yyyy').format(_focusedDay).toString());
               });
