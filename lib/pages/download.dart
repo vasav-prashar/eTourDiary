@@ -25,31 +25,25 @@ class _DownloadState extends State<Download> {
     final end = selectedDates.end;
 
     return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Text("Select the date range"),
-      SizedBox(
-        height: 20,
-      ),
+      const Text("Select the date range"),
+      const SizedBox(height: 20),
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
               child: ElevatedButton(
-            child: Text(DateFormat('dd-MM-yyyy').format(start)),
             onPressed: pickDateRange,
+            child: Text(DateFormat('dd-MM-yyyy').format(start)),
           )),
-          SizedBox(
-            width: 10,
-          ),
+          const SizedBox(width: 10),
           Expanded(
               child: ElevatedButton(
-            child: Text(DateFormat('dd-MM-yyyy').format(end)),
             onPressed: pickDateRange,
+            child: Text(DateFormat('dd-MM-yyyy').format(end)),
           ))
         ],
       ),
-      SizedBox(
-        height: 20,
-      ),
+      const SizedBox(height: 20),
       ElevatedButton(
           onPressed: () async {
             final pdf.Document pdfDoc = await generatePDF(
@@ -67,7 +61,7 @@ class _DownloadState extends State<Download> {
             await OpenFile.open('${directory.path}/events.pdf');
             // print(OpenFile.open(file));
           },
-          child: Text("Generate"))
+          child: const Text("Generate"))
     ]);
   }
 
