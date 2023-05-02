@@ -24,7 +24,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       initialRoute: "/",
       routes: {
-        "/": (context) => SplashScreen(),
+        "/": (context) => const SplashScreen(),
       },
       debugShowCheckedModeBanner: false,
     );

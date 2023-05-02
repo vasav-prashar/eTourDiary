@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -44,7 +46,7 @@ class SplashScreenState extends State<SplashScreen> {
 
     var isLoggedIn = sharedPref.getBool(SplashScreenState.KEYLOGIN);
 
-    Timer(Duration(seconds: 2), () {
+    Timer(const Duration(seconds: 2), () {
       if (isLoggedIn != null) {
         if (isLoggedIn) {
           Navigator.pushReplacement(

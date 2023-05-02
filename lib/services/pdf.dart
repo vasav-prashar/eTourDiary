@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_brace_in_string_interps
+
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pdf;
 import 'package:intl/intl.dart';
@@ -30,8 +32,8 @@ Future<pdf.Document> generatePDF(String startDate, String endDate) async {
     cellStyle: const pdf.TextStyle(fontSize: 10),
     headerStyle: pdf.TextStyle(fontSize: 12, fontWeight: pdf.FontWeight.bold),
     border: pdf.TableBorder.all(width: 1, color: PdfColors.black),
-    headerDecoration: pdf.BoxDecoration(
-      borderRadius: const pdf.BorderRadius.all(pdf.Radius.circular(2)),
+    headerDecoration: const pdf.BoxDecoration(
+      borderRadius: pdf.BorderRadius.all(pdf.Radius.circular(2)),
       color: PdfColors.grey300,
     ),
   );
