@@ -4,6 +4,7 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pdf;
 import 'package:intl/intl.dart';
 import 'package:etourdiary/services/events.dart';
+import 'package:pdf/widgets.dart';
 
 final EventService _events = EventService();
 // Function to generate the PDF
@@ -36,6 +37,12 @@ Future<pdf.Document> generatePDF(String startDate, String endDate) async {
       borderRadius: pdf.BorderRadius.all(pdf.Radius.circular(2)),
       color: PdfColors.grey300,
     ),
+    columnWidths: {
+      0: FlexColumnWidth(1.1),
+      1: FlexColumnWidth(0.9),
+      2: FlexColumnWidth(1),
+      3: FlexColumnWidth(5)
+    },
   );
 
   // Add the table to the PDF document
