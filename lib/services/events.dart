@@ -132,6 +132,7 @@ class EventService {
           .collection('events')
           .where('date', isGreaterThanOrEqualTo: start)
           .where('date', isLessThanOrEqualTo: end)
+          .orderBy('date')
           .get();
 
       print(snapshot.docs.map((doc) => doc.data()).toList());
