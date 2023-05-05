@@ -26,7 +26,7 @@ class _ViewState extends State<View> {
   void initState() {
     super.initState();
     _eventService
-        .getEventsData(DateFormat('dd-MM-yyyy').format(_focusedDay).toString());
+        .getEventsData(DateFormat('yyyy/MM/dd').format(_focusedDay).toString());
     _focusedDay = _selectedDay;
     // _getEventsForDate(DateFormat('dd-MM-yyyy').format(_focusedDay).toString());
   }
@@ -83,7 +83,7 @@ class _ViewState extends State<View> {
           ),
           StreamBuilder<List<Map<String, dynamic>>>(
             stream: _eventService.getEventsData(
-                DateFormat('dd-MM-yyyy').format(_focusedDay).toString()),
+                DateFormat('yyyy/MM/dd').format(_focusedDay).toString()),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return CircularProgressIndicator();

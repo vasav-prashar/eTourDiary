@@ -33,13 +33,13 @@ class _DownloadState extends State<Download> {
           Expanded(
               child: ElevatedButton(
             onPressed: pickDateRange,
-            child: Text(DateFormat('dd-MM-yyyy').format(start)),
+            child: Text(DateFormat('dd/MM/yyyy').format(start)),
           )),
           const SizedBox(width: 10),
           Expanded(
               child: ElevatedButton(
             onPressed: pickDateRange,
-            child: Text(DateFormat('dd-MM-yyyy').format(end)),
+            child: Text(DateFormat('dd/MM/yyyy').format(end)),
           ))
         ],
       ),
@@ -47,8 +47,8 @@ class _DownloadState extends State<Download> {
       ElevatedButton(
           onPressed: () async {
             final pdf.Document pdfDoc = await generatePDF(
-                DateFormat('dd-MM-yyyy').format(start),
-                DateFormat('dd-MM-yyyy').format(end));
+                DateFormat('yyyy/MM/dd').format(start),
+                DateFormat('yyyy/MM/dd').format(end));
 
 // Save the PDF to the device
             final bytes = await pdfDoc.save();

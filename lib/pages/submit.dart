@@ -128,7 +128,8 @@ class _SubmitState extends State<Submit> {
                     ),
                     const SizedBox(height: 30),
                     TextFormField(
-                      controller: dateinput, //editing controller of this TextField
+                      controller:
+                          dateinput, //editing controller of this TextField
                       decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           icon: Icon(Icons.calendar_today), //icon of text field
@@ -144,15 +145,15 @@ class _SubmitState extends State<Submit> {
                             firstDate: DateTime
                                 .now(), //DateTime.now() - not to allow to choose before today.
                             lastDate: DateTime(2101));
-            
+
                         if (pickedDate != null) {
                           print(pickedDate);
                           String formattedDate =
-                              DateFormat('dd-MM-yyyy').format(pickedDate);
+                              DateFormat('yyyy/MM/dd').format(pickedDate);
                           print(
                               formattedDate); //formatted date output using intl package =>  2021-03-16
                           //you can implement different kind of Date Format here according to your requirement
-            
+
                           setState(() {
                             dateinput.text =
                                 formattedDate; //set output date to TextField value.
@@ -184,8 +185,8 @@ class _SubmitState extends State<Submit> {
                           ),
                           const Text(
                             "Forenoon",
-                            style:
-                                TextStyle(fontSize: 20, fontWeight: FontWeight.w300),
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.w300),
                           )
                         ]),
                         Row(children: [
@@ -213,10 +214,10 @@ class _SubmitState extends State<Submit> {
                           if (_isOthersSelected) {
                             _selectedValue = _title.text;
                           }
-            
+
                           // Process data.
-                          _events.addEventData(
-                             _selectedValue!, _description.text, dateinput.text, _value);
+                          _events.addEventData(_selectedValue!,
+                              _description.text, dateinput.text, _value);
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('Added Sucessfully.'),
@@ -230,13 +231,12 @@ class _SubmitState extends State<Submit> {
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                                fixedSize: Size(120, 60),                              
-                                backgroundColor: Color(0xff4c505b)
-                              ),
-                      child: const Text('Submit',style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20
-                      ),),
+                          fixedSize: Size(120, 60),
+                          backgroundColor: Color(0xff4c505b)),
+                      child: const Text(
+                        'Submit',
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
                     ),
                   ],
                 ),

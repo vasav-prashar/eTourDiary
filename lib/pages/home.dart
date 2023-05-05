@@ -50,7 +50,7 @@ class _HomeState extends State<Home> {
         //       ],
         //     )),
         child: Scaffold(
-          // backgroundColor: Colors.transparent,
+            // backgroundColor: Colors.transparent,
             drawer: Drawer(
               // backgroundColor: Color(0xff4c505b),
               // Add a ListView to the drawer. This ensures the user can scroll
@@ -81,7 +81,9 @@ class _HomeState extends State<Home> {
               ),
             ),
             resizeToAvoidBottomInset: false,
-            appBar: AppBar(title: const Text(Home._title),backgroundColor: Color(0xff4c505b)),
+            appBar: AppBar(
+                title: const Text(Home._title),
+                backgroundColor: Color(0xff4c505b)),
             body: DoubleBackToCloseApp(
               snackBar: const SnackBar(
                 content: Text('Tap back again to Exit'),
@@ -92,7 +94,7 @@ class _HomeState extends State<Home> {
               items: [
                 TabItem(icon: Icons.add, title: 'Submit'),
                 TabItem(icon: Icons.view_agenda, title: 'View'),
-                TabItem(icon: Icons.download, title: 'Download'),
+                TabItem(icon: Icons.download, title: 'Report'),
               ],
               backgroundColor: Color(0xff4c505b),
               color: Colors.white,
