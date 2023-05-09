@@ -1,5 +1,8 @@
 // ignore_for_file: prefer_final_fields
 
+import 'dart:async';
+import 'dart:ffi';
+
 import 'package:etourdiary/pages/auth/signup.dart';
 import 'package:etourdiary/pages/home.dart';
 import 'package:etourdiary/pages/splash_screen.dart';
@@ -19,7 +22,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  bool _isVisible=false;
+  bool _isVisible = false;
 
   //auth service obj
   final AuthService _auth = AuthService();
@@ -27,7 +30,17 @@ class _LoginState extends State<Login> {
   //Text Controllers
   TextEditingController _email = TextEditingController();
   TextEditingController _password = TextEditingController();
+  int _loginAttempts = 0;
+  bool _loginButtonEnabled = true;
+  DateTime? _loginButtonDisabledUntil;
 
+  @override
+  void initState() {
+    super.initState();
+    _loadLoginAttempts();
+    _loadLoginButtonEnabled();
+    _loadLoginButtonDisabledUntil();
+  }
   
 
   @override
@@ -41,8 +54,9 @@ class _LoginState extends State<Login> {
         body: Stack(
           children: [
             Container(
-              padding: EdgeInsets.only(left: 35,
-              top: MediaQuery.of(context).size.height * 0.17,
+              padding: EdgeInsets.only(
+                left: 35,
+                top: MediaQuery.of(context).size.height * 0.17,
               ),
               child: const Text(
                 'Welcome\nBack',
@@ -85,8 +99,10 @@ class _LoginState extends State<Login> {
                         decoration: InputDecoration(
                             suffixIcon: IconButton(
                               icon: _isVisible
-                                  ? const Icon(Icons.visibility, color: Colors.black)
-                                  : const Icon(Icons.visibility_off, color: Colors.black),
+                                  ? const Icon(Icons.visibility,
+                                      color: Colors.black)
+                                  : const Icon(Icons.visibility_off,
+                                      color: Colors.black),
                               onPressed: () {
                                 setState(() {
                                   _isVisible = !_isVisible;
@@ -97,7 +113,8 @@ class _LoginState extends State<Login> {
                             filled: true,
                             labelText: 'Password',
                             labelStyle: const TextStyle(color: Colors.black),
-                            icon: const Icon(Icons.password, color: Colors.black),
+                            icon:
+                                const Icon(Icons.password, color: Colors.black),
                             hintStyle: const TextStyle(letterSpacing: 2.0),
                             border: const UnderlineInputBorder(),
                             focusedBorder: const UnderlineInputBorder()),
@@ -121,40 +138,55 @@ class _LoginState extends State<Login> {
                                 color: Colors.black),
                           ),
                           ElevatedButton(
-                            onPressed: () async {
-                              if (_formKey.currentState!.validate()) {
-                                String? errorMessage =
-                                    await _auth.signInWithEmailAndPassword(
-                                        _email.text, _password.text);
-                                if (errorMessage != null) {
-                                  // ignore: use_build_context_synchronously
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(errorMessage),
-                                      backgroundColor: Colors.red,
-                                      duration: const Duration(seconds: 3),
-                                    ),
-                                  );
-                                }
-                                print(errorMessage);
-                                if (errorMessage == null) {
-                                  var sharedPref =
-                                      await SharedPreferences.getInstance();
-                                  sharedPref.setBool(SplashScreenState.KEYLOGIN, true);
-                                  // ignore: use_build_context_synchronously
-                                  Navigator.pushReplacement(
-                                      context,
-                                      CustomPageRoute(child: const Home()));
-                                }
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                                shape: const CircleBorder(),
-                                padding: const EdgeInsets.all(30),
-                                backgroundColor: Colors.black
-                              ),
-                            child: const Icon(Icons.arrow_forward_ios)
-                          ),
+                              onPressed: _loginButtonEnabled
+                                  ? () async {
+                                          if (_formKey.currentState!
+                                              .validate()) {
+                                            String? errorMessage = await _auth
+                                                .signInWithEmailAndPassword(
+                                                    _email.text,
+                                                    _password.text);
+                                            if (errorMessage != null) {
+                                              _incrementLoginAttempts();
+                                              if (_loginAttempts >= 3) {
+                                                _disableLoginButton();
+                                                _startCountdownTimer();
+                                              }
+                                              // ignore: use_build_context_synchronously
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(errorMessage),
+                                                  backgroundColor: Colors.red,
+                                                  duration: const Duration(
+                                                      seconds: 3),
+                                                ),
+                                              );
+                                            }
+                                            print(errorMessage);
+                                            if (errorMessage == null) {
+                                              var sharedPref =
+                                                  await SharedPreferences
+                                                      .getInstance();
+                                              sharedPref.setBool(
+                                                  SplashScreenState.KEYLOGIN,
+                                                  true);
+                                              _resetLoginAttempts();
+                                              _resetLoginButtonDisabledUntil();
+                                              // ignore: use_build_context_synchronously
+                                              Navigator.pushReplacement(
+                                                  context,
+                                                  CustomPageRoute(
+                                                      child: const Home()));
+                                            }
+                                          }
+                                        }
+                                        : null,
+                              style: ElevatedButton.styleFrom(
+                                  shape: const CircleBorder(),
+                                  padding: const EdgeInsets.all(30),
+                                  backgroundColor: Colors.black),
+                              child: const Icon(Icons.arrow_forward_ios)),
                         ],
                       ),
                       const SizedBox(height: 50),
@@ -164,16 +196,14 @@ class _LoginState extends State<Login> {
                           TextButton(
                             onPressed: () => {
                               Navigator.pushReplacement(
-                                      context,
-                                      CustomPageRoute(child: Signup()))
+                                  context, CustomPageRoute(child: Signup()))
                             },
                             child: const Text(
                               'Sign Up',
                               style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                fontSize: 18,
-                                color: Colors.black
-                              ),
+                                  decoration: TextDecoration.underline,
+                                  fontSize: 18,
+                                  color: Colors.black),
                             ),
                           ),
                           TextButton(
@@ -181,10 +211,9 @@ class _LoginState extends State<Login> {
                             child: const Text(
                               'Forgot Password',
                               style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                fontSize: 18,
-                                color: Colors.black
-                              ),
+                                  decoration: TextDecoration.underline,
+                                  fontSize: 18,
+                                  color: Colors.black),
                             ),
                           )
                         ],
@@ -197,6 +226,95 @@ class _LoginState extends State<Login> {
           ],
         ),
       ),
+    );
+  }
+
+  //
+  Future<void> _loadLoginAttempts() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _loginAttempts = prefs.getInt('loginAttempts') ?? 0;
+    });
+  }
+
+  Future<void> _saveLoginAttempts(int loginAttempts) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('loginAttempts', loginAttempts);
+  }
+
+  Future<void> _loadLoginButtonEnabled() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _loginButtonEnabled = prefs.getBool('loginButtonEnabled') ?? true;
+    });
+  }
+
+  Future<void> _saveLoginButtonEnabled(bool loginButtonEnabled) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('loginButtonEnabled', loginButtonEnabled);
+  }
+
+  Future<void> _loadLoginButtonDisabledUntil() async {
+    final prefs = await SharedPreferences.getInstance();
+    final loginButtonDisabledUntilTimestamp =
+        prefs.getInt('loginButtonDisabledUntil');
+    setState(() {
+      _loginButtonDisabledUntil = loginButtonDisabledUntilTimestamp != null
+          ? DateTime.fromMillisecondsSinceEpoch(
+              loginButtonDisabledUntilTimestamp)
+          : null;
+    });
+    if (_loginButtonDisabledUntil != null) {
+      _startCountdownTimer();
+    }
+  }
+
+  Future<void> _saveLoginButtonDisabledUntil(
+      DateTime loginButtonDisabledUntil) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('loginButtonDisabledUntil',
+        loginButtonDisabledUntil.millisecondsSinceEpoch);
+  }
+
+  void _incrementLoginAttempts() async {
+    setState(() {
+      _loginAttempts++;
+    });
+    await _saveLoginAttempts(_loginAttempts);
+  }
+
+  void _resetLoginAttempts() async {
+    setState(() {
+      _loginAttempts = 0;
+    });
+    await _saveLoginAttempts(_loginAttempts);
+  }
+
+  void _disableLoginButton() async {
+    setState(() {
+      _loginButtonEnabled = false;
+      _loginButtonDisabledUntil = DateTime.now().add(Duration(seconds: 15));
+    });
+    await _saveLoginButtonEnabled(false);
+    await _saveLoginButtonDisabledUntil(_loginButtonDisabledUntil!);
+  }
+
+  void _resetLoginButtonDisabledUntil() async {
+    setState(() {
+      _loginButtonEnabled = true;
+      _loginButtonDisabledUntil = null;
+    });
+    await _saveLoginButtonEnabled(true);
+    await _saveLoginButtonDisabledUntil(DateTime.now());
+  }
+
+  void _startCountdownTimer() {
+    Timer(
+      Duration(
+          milliseconds: _loginButtonDisabledUntil!
+              .difference(DateTime.now())
+              .inMilliseconds),
+      _resetLoginButtonDisabledUntil,
     );
   }
 }
