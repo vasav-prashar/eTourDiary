@@ -232,7 +232,7 @@ class _SubmitState extends State<Submit> {
                       },
                       style: ElevatedButton.styleFrom(
                           fixedSize: Size(120, 60),
-                          backgroundColor: Color(0xff4c505b)),
+                          backgroundColor: Colors.blue),
                       child: const Text(
                         'Submit',
                         style: TextStyle(color: Colors.white, fontSize: 20),

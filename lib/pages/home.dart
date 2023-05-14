@@ -31,7 +31,7 @@ class _HomeState extends State<Home> {
     await FirebaseAuth.instance.signOut();
     var sharedPref = await SharedPreferences.getInstance();
     sharedPref.setBool(SplashScreenState.KEYLOGIN, false);
-    Navigator.pushReplacement(context, CustomPageRoute(child: const Login()));
+    Navigator.pushReplacement(context, ForwardPageRoute(child: const Login()));
   }
 
   @override
@@ -40,50 +40,55 @@ class _HomeState extends State<Home> {
       debugShowCheckedModeBanner: false,
       title: Home._title,
       home: Container(
-        // decoration: const BoxDecoration(
-        //   gradient: LinearGradient(
-        //       begin: Alignment.topRight,
-        //       end: Alignment.bottomLeft,
-        //       colors: [
-        //         Color.fromRGBO(76, 80, 91, 1),
-        //         Color.fromRGBO(94, 98, 108, 1)
-        //       ],
-        //     )),
+        decoration: const BoxDecoration(
+          color: Color.fromARGB(255, 245, 244, 240),
+          ),
         child: Scaffold(
-            // backgroundColor: Colors.transparent,
+            backgroundColor: Colors.transparent,
+            
             drawer: Drawer(
-              // backgroundColor: Color(0xff4c505b),
+              backgroundColor: Colors.white,
+              
               // Add a ListView to the drawer. This ensures the user can scroll
               // through the options in the drawer if there isn't enough vertical
               // space to fit everything.
               child: ListView(
+                
                 // Important: Remove any padding from the ListView.
                 padding: EdgeInsets.zero,
-                children: [
+                children:[
                   UserAccountsDrawerHeader(
-                    currentAccountPicture: Icon(Icons.person),
-                    accountEmail: Text('${_auth.currentUser?.email}'),
-                    accountName: Text('${_auth.currentUser?.displayName}'),
-                    decoration: const BoxDecoration(
-                      color: Colors.black45,
+                    currentAccountPicture: CircleAvatar(backgroundImage: AssetImage('assets/profile.png'),),
+                    accountEmail: Text('${_auth.currentUser?.email}',style: TextStyle(fontSize: 15),),
+                    accountName: Text('${_auth.currentUser?.displayName}',style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),                    
+                    decoration: 
+                    const BoxDecoration(
+                      color: Color.fromARGB(255, 107, 176, 243),
                     ),
                   ),
                   ListTile(
-                    title: const Text('LogOut'),
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text('LogOut',style: TextStyle(
+                          fontSize: 17
+                        ),),
+                        const Icon(Icons.logout,color: Colors.black,size: 25),
+                      ],
+                    ),
                     onTap: () {
                       signOut();
-                      // Update the state of the app
-                      // ...
-                      // Then close the drawer
                     },
                   ),
+                  
                 ],
               ),
             ),
+            
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
                 title: const Text(Home._title),
-                backgroundColor: Color(0xff4c505b)),
+                backgroundColor: Color.fromARGB(255, 107, 176, 243)),
             body: DoubleBackToCloseApp(
               snackBar: const SnackBar(
                 content: Text('Tap back again to Exit'),
@@ -96,8 +101,11 @@ class _HomeState extends State<Home> {
                 TabItem(icon: Icons.view_agenda, title: 'View'),
                 TabItem(icon: Icons.download, title: 'Report'),
               ],
-              backgroundColor: Color(0xff4c505b),
+              backgroundColor: Color.fromARGB(255, 107, 176, 243),
               color: Colors.white,
+              curveSize: 90,
+              elevation: 15,
+              style: TabStyle.reactCircle,
               height: 50,
               onTap: (index) => {
                 setState(() {

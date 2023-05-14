@@ -72,15 +72,18 @@ class _ViewState extends State<View> {
               },
             ),
           ),
+          const SizedBox(height: 20,),
           const Text(
             "Selected Date Is",
             style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
           ),
+          const SizedBox(height: 10),
           Text(
             DateFormat('dd-MM-yyyy').format(_focusedDay),
             style: const TextStyle(
                 fontSize: 15, fontWeight: FontWeight.w600, color: Colors.blue),
           ),
+          const SizedBox(height: 10),
           StreamBuilder<List<Map<String, dynamic>>>(
             stream: _eventService.getEventsData(
                 DateFormat('yyyy/MM/dd').format(_focusedDay).toString()),
@@ -99,12 +102,14 @@ class _ViewState extends State<View> {
                       final event = snapshot.data![index];
 
                       return Card(
+                        // shape:Border(bottom: BorderSide(), top: BorderSide(),left: BorderSide(),right: BorderSide()),
+                        shape: BeveledRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
+                            Padding(padding: EdgeInsets.all(5)),
                             ListTile(
-                              leading: Icon(Icons.all_inbox),
-                              iconColor: Colors.black,
+                              leading: Icon(Icons.all_inbox,color: Colors.blue,),
                               title: Text(event['title']),
                               subtitle: Text(event['description']),
                               trailing: Text(event['time']),
@@ -113,7 +118,7 @@ class _ViewState extends State<View> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: <Widget>[
                                 IconButton(
-                                  icon: const Icon(Icons.edit),
+                                  icon: const Icon(Icons.edit,color: Colors.blue,),
                                   onPressed: () async {
                                     await showDialog(
                                       context: context,
@@ -126,7 +131,7 @@ class _ViewState extends State<View> {
                                 ),
                                 const SizedBox(width: 8),
                                 IconButton(
-                                    icon: Icon(Icons.delete),
+                                    icon: Icon(Icons.delete,color: Colors.blue,),
                                     onPressed: () async {
                                       await showDialog(
                                           context: context,
