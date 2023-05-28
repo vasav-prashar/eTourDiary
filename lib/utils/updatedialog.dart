@@ -86,12 +86,18 @@ class _UpdateDialogState extends State<UpdateDialog> {
         ),
         actions: [
           ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blue
+            ),
             child: Text('Cancel'),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
           ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blue
+            ),
             child: Text('Save'),
             onPressed: () async {
               if (_formKey.currentState!.validate()) {

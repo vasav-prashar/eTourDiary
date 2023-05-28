@@ -12,6 +12,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:etourdiary/animations/customAnimation.dart';
+import 'package:etourdiary/pages/auth/forgot.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -115,7 +116,7 @@ class _LoginState extends State<Login> {
                             labelStyle: const TextStyle(color: Colors.black),
                             icon:
                                 const Icon(Icons.password, color: Colors.black),
-                            hintStyle: const TextStyle(letterSpacing: 2.0),
+                            hintStyle:   const TextStyle(letterSpacing: 2.0),
                             border: const UnderlineInputBorder(),
                             focusedBorder: const UnderlineInputBorder()),
                         validator: (String? value) {
@@ -158,8 +159,7 @@ class _LoginState extends State<Login> {
                                                 SnackBar(
                                                   content: Text(errorMessage),
                                                   backgroundColor: Colors.red,
-                                                  duration: const Duration(
-                                                      seconds: 3),
+                                                  duration: const Duration( seconds: 3),
                                                 ),
                                               );
                                             }
@@ -176,7 +176,7 @@ class _LoginState extends State<Login> {
                                               // ignore: use_build_context_synchronously
                                               Navigator.pushReplacement(
                                                   context,
-                                                  CustomPageRoute(
+                                                  ForwardPageRoute(
                                                       child: const Home()));
                                             }
                                           }
@@ -196,7 +196,7 @@ class _LoginState extends State<Login> {
                           TextButton(
                             onPressed: () => {
                               Navigator.pushReplacement(
-                                  context, CustomPageRoute(child: Signup()))
+                                  context, ForwardPageRoute(child: Signup()))
                             },
                             child: const Text(
                               'Sign Up',
@@ -207,7 +207,10 @@ class _LoginState extends State<Login> {
                             ),
                           ),
                           TextButton(
-                            onPressed: () => {},
+                            onPressed: () => {
+                              Navigator.pushReplacement(
+                                  context, ForwardPageRoute(child: const ForgotPassword()))
+                            },
                             child: const Text(
                               'Forgot Password',
                               style: TextStyle(
@@ -236,7 +239,6 @@ class _LoginState extends State<Login> {
       _loginAttempts = prefs.getInt('loginAttempts') ?? 0;
     });
   }
-
   Future<void> _saveLoginAttempts(int loginAttempts) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt('loginAttempts', loginAttempts);

@@ -79,7 +79,7 @@ class _SignupState extends State<Signup> {
                             } else if (!RegExp(
                                     r"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")
                                 .hasMatch(value)) {
-                              return "Enter correct name";
+                              return "Enter a valid name";
                             } else {
                               n = true;
                             }
@@ -171,10 +171,8 @@ class _SignupState extends State<Signup> {
                               return 'Please enter some text';
                             } else if (!RegExp(
                                     r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$")
-                                .hasMatch(value)) {
-                              return "Min 6 characters, atleast 1 uppercase letter,\n1 lowercase letter, 1 number and 1 special character";
-                            } else if (value != _password.text) {
-                              return 'Password does not match';
+                                .hasMatch(value)&& value!= _password.text) {
+                              return "Password does not match";
                             } else {
                               cp = true;
                             }
@@ -236,7 +234,7 @@ class _SignupState extends State<Signup> {
                           onPressed: () => {
                             Navigator.pushReplacement(
                                     context,
-                                    CustomPageRoute(child: Login()))
+                                    ForwardPageRoute(child: Login()))
                           },
                           child: const Text(
                             'Already a User?',

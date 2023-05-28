@@ -25,25 +25,50 @@ class _DownloadState extends State<Download> {
     final end = selectedDates.end;
 
     return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      const Text("Select the date range"),
-      const SizedBox(height: 20),
+      const Text("Select the date range",
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.w500,
+                  ),),
+      const SizedBox(height: 70),
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          const SizedBox(width: 20),
           Expanded(
               child: ElevatedButton(
             onPressed: pickDateRange,
-            child: Text(DateFormat('dd/MM/yyyy').format(start)),
+            style: ElevatedButton.styleFrom(
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(55))),
+                              fixedSize: Size(0,80),
+                              backgroundColor: Colors.blue),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.date_range,size: 23,),
+                Text(DateFormat('dd/MM/yyyy').format(start),
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),),
+                            const SizedBox(width: 15,),
+                            const Icon(Icons.horizontal_rule),
+                            const SizedBox(width: 15,),
+                            const Icon(Icons.date_range,size: 23,),
+                Text(DateFormat('dd/MM/yyyy').format(end),
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold
+                            ),)
+              ],
+            ),
           )),
           const SizedBox(width: 10),
-          Expanded(
-              child: ElevatedButton(
-            onPressed: pickDateRange,
-            child: Text(DateFormat('dd/MM/yyyy').format(end)),
-          ))
+          const SizedBox(width: 20)
         ],
       ),
-      const SizedBox(height: 20),
+      const SizedBox(height: 130),
       ElevatedButton(
           onPressed: () async {
             final pdf.Document pdfDoc = await generatePDF(
@@ -61,7 +86,25 @@ class _DownloadState extends State<Download> {
             await OpenFile.open('${directory.path}/events.pdf');
             // print(OpenFile.open(file));
           },
-          child: const Text("Generate"))
+          style: ElevatedButton.styleFrom(
+                              // shape: const RoundedRectangleBorder(
+                              //     borderRadius:
+                              //         BorderRadius.all(Radius.circular(55))),
+                              padding:
+                                  const EdgeInsets.fromLTRB(45, 20, 45, 20),
+                              backgroundColor: Colors.blue,),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [
+                              Icon(Icons.settings),
+                              SizedBox(width: 10,),
+                              Text('Generate',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                ))
+                            ],
+                          ),                         
+          ),
     ]);
   }
 
