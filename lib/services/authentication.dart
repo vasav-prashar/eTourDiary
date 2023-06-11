@@ -17,6 +17,7 @@ class AuthService {
 
       // Add user data to Firestore
       User? user = await _firebaseAuth.currentUser;
+      await result.user!.sendEmailVerification();
       user?.updateDisplayName(displayName);
       await _db.collection('users').doc(user?.uid).set({
         'displayName': displayName,
@@ -45,7 +46,11 @@ class AuthService {
     try {
       UserCredential userCredential = await _firebaseAuth
           .signInWithEmailAndPassword(email: email, password: password);
-      return null;
+          if (userCredential.user!.emailVerified) {
+        return null;
+      } else {
+        return "Email not verified. Please verify your email before logging in.";
+      }
     } on FirebaseAuthException catch (e) {
       String errorMessage = e.code;
       if (e.code == 'user-not-found') {
