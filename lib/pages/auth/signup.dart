@@ -211,7 +211,10 @@ class _SignupState extends State<Signup> {
                                     _confirmPassword.clear();
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                        content: Text('Please verify your email.'),
+                                        content: Text('Please verify your email.',
+                                        style: TextStyle(
+                                          color: Colors.black
+                                        ),),
                                         duration: Duration(seconds: 3),
                                         backgroundColor: Colors.yellow,
                                       ),
