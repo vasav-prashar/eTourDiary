@@ -2,8 +2,6 @@
 
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:etourdiary/pages/auth/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:etourdiary/pages/home.dart';
@@ -16,6 +14,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class SplashScreenState extends State<SplashScreen> {
+  // ignore: constant_identifier_names
   static const String KEYLOGIN = "login";
 
   @override
@@ -32,7 +31,7 @@ class SplashScreenState extends State<SplashScreen> {
         color: Colors.blue,
         child: const Center(
           child: Text(
-            "E-Tour Diary",
+            "e-DANIKI",
             style: TextStyle(
                 fontSize: 34, fontWeight: FontWeight.w700, color: Colors.white),
           ),

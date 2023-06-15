@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:async';
 import 'package:etourdiary/services/events.dart';
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 import 'package:pdf/widgets.dart' as pdf;
 import '../services/pdf.dart';

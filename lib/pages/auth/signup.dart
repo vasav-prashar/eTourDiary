@@ -1,14 +1,12 @@
 // ignore_for_file: prefer_final_fields, use_build_context_synchronously
-
 import 'package:etourdiary/pages/auth/login.dart';
 import 'package:etourdiary/services/authentication.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:etourdiary/animations/customAnimation.dart';
 
 class Signup extends StatefulWidget {
+  const Signup({super.key});
+
   @override
   State<Signup> createState() => _SignupState();
 }
@@ -213,9 +211,12 @@ class _SignupState extends State<Signup> {
                                     _confirmPassword.clear();
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                        content: Text('Account Successfully Created.'),
+                                        content: Text('Please verify your email.',
+                                        style: TextStyle(
+                                          color: Colors.black
+                                        ),),
                                         duration: Duration(seconds: 3),
-                                        backgroundColor: Colors.green,
+                                        backgroundColor: Colors.yellow,
                                       ),
                                     );
                                   }
