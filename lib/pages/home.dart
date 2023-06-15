@@ -1,5 +1,4 @@
 // ignore_for_file: use_build_context_synchronously, prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:etourdiary/animations/customAnimation.dart';
 import 'package:etourdiary/pages/auth/login.dart';
 import 'package:etourdiary/pages/download.dart';
@@ -21,7 +20,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   int _selectedIndex = 0;
 

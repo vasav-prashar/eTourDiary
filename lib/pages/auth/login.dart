@@ -1,14 +1,9 @@
 // ignore_for_file: prefer_final_fields
-
 import 'dart:async';
-import 'dart:ffi';
-
 import 'package:etourdiary/pages/auth/signup.dart';
 import 'package:etourdiary/pages/home.dart';
 import 'package:etourdiary/pages/splash_screen.dart';
 import 'package:etourdiary/services/authentication.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:etourdiary/animations/customAnimation.dart';
@@ -57,10 +52,10 @@ class _LoginState extends State<Login> {
             Container(
               padding: EdgeInsets.only(
                 left: 35,
-                top: MediaQuery.of(context).size.height * 0.17,
+                top: MediaQuery.of(context).size.height * 0.2,
               ),
               child: const Text(
-                'Welcome\nBack',
+                'e-DANIKI',
                 style: TextStyle(
                     fontSize: 50, letterSpacing: 2.0, color: Colors.white),
               ),
