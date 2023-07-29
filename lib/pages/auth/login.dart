@@ -51,11 +51,11 @@ class _LoginState extends State<Login> {
           children: [
             Container(
               padding: EdgeInsets.only(
-                left: 35,
+                left: 20,
                 top: MediaQuery.of(context).size.height * 0.2,
               ),
               child: const Text(
-                'e-DANIKI',
+                'eTourDiary',
                 style: TextStyle(
                     fontSize: 50, letterSpacing: 2.0, color: Colors.white),
               ),

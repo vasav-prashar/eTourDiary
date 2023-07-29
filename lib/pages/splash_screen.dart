@@ -31,7 +31,7 @@ class SplashScreenState extends State<SplashScreen> {
         color: Colors.blue,
         child: const Center(
           child: Text(
-            "e-DANIKI",
+            "eTourDiary",
             style: TextStyle(
                 fontSize: 34, fontWeight: FontWeight.w700, color: Colors.white),
           ),

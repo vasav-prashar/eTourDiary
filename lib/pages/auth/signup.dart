@@ -81,6 +81,7 @@ class _SignupState extends State<Signup> {
                             } else {
                               n = true;
                             }
+                            return null;
                           },
                         ),
                         const SizedBox(height: 30),
@@ -104,6 +105,7 @@ class _SignupState extends State<Signup> {
                             } else {
                               em = true;
                             }
+                            return null;
                           },
                         ),
                         const SizedBox(height: 30),
@@ -139,6 +141,7 @@ class _SignupState extends State<Signup> {
                             } else {
                               p = true;
                             }
+                            return null;
                           },
                         ),
                         const SizedBox(height: 30),
@@ -174,6 +177,7 @@ class _SignupState extends State<Signup> {
                             } else {
                               cp = true;
                             }
+                            return null;
                           },
                         ),
                         const SizedBox(height: 30),

@@ -1,11 +1,12 @@
+// ignore_for_file: prefer_const_constructors_in_immutables, library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import "package:etourdiary/services/events.dart";
-import 'package:intl/intl.dart';
 
 class UpdateDialog extends StatefulWidget {
   final Map<String, dynamic> eventData;
 
-  UpdateDialog({required this.eventData});
+  UpdateDialog({super.key, required this.eventData});
 
   @override
   _UpdateDialogState createState() => _UpdateDialogState();
@@ -15,7 +16,6 @@ class _UpdateDialogState extends State<UpdateDialog> {
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _titleController;
   late TextEditingController _descriptionController;
-  late TextEditingController _dateController;
   final EventService _eventService = EventService();
   TextEditingController dateinput = TextEditingController();
 
@@ -38,7 +38,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: AlertDialog(
-        title: Text('Update Event'),
+        title: const Text('Update Event'),
         content: Form(
           key: _formKey,
           child: Column(
@@ -46,9 +46,9 @@ class _UpdateDialogState extends State<UpdateDialog> {
             children: [
               TextFormField(
                 controller: _titleController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: "Title",
-                  labelStyle: const TextStyle(
+                  labelStyle: TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.w300,
                       fontStyle: FontStyle.italic),
@@ -63,9 +63,9 @@ class _UpdateDialogState extends State<UpdateDialog> {
               ),
               TextFormField(
                 controller: _descriptionController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: "Description",
-                  labelStyle: const TextStyle(
+                  labelStyle: TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.w300,
                       fontStyle: FontStyle.italic),
@@ -89,7 +89,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.blue
             ),
-            child: Text('Cancel'),
+            child: const Text('Cancel'),
             onPressed: () {
               Navigator.of(context).pop();
             },
@@ -98,7 +98,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.blue
             ),
-            child: Text('Save'),
+            child: const Text('Save'),
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
                 String id = await _eventService.getEventId(

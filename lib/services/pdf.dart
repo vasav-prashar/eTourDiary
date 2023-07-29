@@ -2,7 +2,6 @@
 
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pdf;
-import 'package:intl/intl.dart';
 import 'package:etourdiary/services/events.dart';
 import 'package:pdf/widgets.dart';
 
@@ -38,10 +37,10 @@ Future<pdf.Document> generatePDF(String startDate, String endDate) async {
       color: PdfColors.grey300,
     ),
     columnWidths: {
-      0: FlexColumnWidth(1.1),
-      1: FlexColumnWidth(0.9),
-      2: FlexColumnWidth(1),
-      3: FlexColumnWidth(5)
+      0: const FlexColumnWidth(1.1),
+      1: const FlexColumnWidth(0.9),
+      2: const FlexColumnWidth(1),
+      3: const FlexColumnWidth(5)
     },
   );
 
