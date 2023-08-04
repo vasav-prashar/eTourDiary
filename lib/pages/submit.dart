@@ -31,6 +31,15 @@ class _SubmitState extends State<Submit> {
     super.initState();
   }
 
+  void _resetSelections() {
+    setState(() {
+      _selectedMeeting = null;
+      _selectedValue = null;
+      _isOthersSelected = false;
+      _value = "Forenoon";
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -139,11 +148,12 @@ class _SubmitState extends State<Submit> {
                       readOnly:
                           true, //set it true, so that user will not able to edit text
                       onTap: () async {
+                        DateTime now = DateTime.now();
                         DateTime? pickedDate = await showDatePicker(
                             context: context,
                             initialDate: DateTime.now(),
-                            firstDate: DateTime
-                                .now(), //DateTime.now() - not to allow to choose before today.
+                            firstDate: DateTime(now.year - 1),
+                            //DateTime.now() - not to allow to choose before today.
                             lastDate: DateTime(2101));
 
                         if (pickedDate != null) {
@@ -225,13 +235,14 @@ class _SubmitState extends State<Submit> {
                               backgroundColor: Colors.green,
                             ),
                           );
+                          _resetSelections();
                           _title.clear();
                           _description.clear();
                           dateinput.clear();
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                          fixedSize: Size(120, 60),
+                          fixedSize: const Size(120, 60),
                           backgroundColor: Colors.blue),
                       child: const Text(
                         'Submit',
@@ -255,8 +266,8 @@ class Meeting {
 }
 
 List<Meeting> meetings = [
-  Meeting('A'),
-  Meeting('B'),
-  Meeting('C'),
+  Meeting('Office Work'),
+  Meeting('Site Visit'),
+  Meeting('Meeting'),
   Meeting('Others')
 ];

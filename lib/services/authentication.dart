@@ -44,7 +44,7 @@ class AuthService {
     try {
       UserCredential userCredential = await _firebaseAuth
           .signInWithEmailAndPassword(email: email, password: password);
-          if (userCredential.user!.emailVerified) {
+      if (userCredential.user!.emailVerified) {
         return null;
       } else {
         return "Email not verified. Please verify your email before logging in.";
