@@ -8,14 +8,14 @@ import 'package:intl/intl.dart';
 
 import '../utils/updatedialog.dart';
 
-class View extends StatefulWidget {
-  const View({super.key});
+class ViewPage extends StatefulWidget {
+  const ViewPage({super.key});
 
   @override
-  State<View> createState() => _ViewState();
+  State<ViewPage> createState() => _ViewState();
 }
 
-class _ViewState extends State<View> {
+class _ViewState extends State<ViewPage> {
   DateTime _focusedDay = DateTime.now();
   DateTime _selectedDay = DateTime.now();
   CalendarFormat _calendarFormat = CalendarFormat.twoWeeks;
@@ -69,6 +69,7 @@ class _ViewState extends State<View> {
                     ),
                   );
                 }
+                return null;
               },
             ),
           ),

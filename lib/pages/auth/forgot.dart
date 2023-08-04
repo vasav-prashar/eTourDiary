@@ -18,7 +18,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   final FirebaseAuth auth = FirebaseAuth.instance;
 
   //Text Controllers
-  TextEditingController _email = TextEditingController();
+  final TextEditingController _email = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -159,6 +159,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   // forgotPassword({email}) async {
   //   try {
   //     await auth.sendPasswordResetEmail(email: email);
+  //     // ignore: use_build_context_synchronously
   //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
   //       content: Text('Reset mail send successfully'),
   //       backgroundColor: Colors.green,

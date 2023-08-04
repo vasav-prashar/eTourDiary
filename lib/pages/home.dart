@@ -24,7 +24,7 @@ class _HomeState extends State<Home> {
 
   int _selectedIndex = 0;
 
-  List<Widget> pages = [Submit(), View(), Download()];
+  List<Widget> pages = [Submit(), ViewPage(), Download()];
 
   void signOut() async {
     await FirebaseAuth.instance.signOut();

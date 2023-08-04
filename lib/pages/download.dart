@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field
+
 import 'dart:io';
 import 'dart:async';
 import 'package:etourdiary/services/events.dart';
